@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monde Bipolaire → Multipolaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400&family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f5f7fa;
+  --surface:  #ffffff;
+  --surface2: #f0f3f8;
+  --border:   #e4e9f2;
+  --ink:      #1a2030;
+  --ink2:     #3d4a5c;
+  --ink3:     #7a8899;
+
+  --r:        #e53935;
+  --r-light:  #fff1f0;
+  --r-mid:    #ffd6d4;
+  --r-border: #ffb3b0;
+
+  --g:        #16a34a;
+  --g-light:  #f0fff5;
+  --g-mid:    #c6f0d8;
+  --g-border: #86efac;
+
+  --b:        #2563eb;
+  --b-light:  #eff6ff;
+  --b-mid:    #bfdbfe;
+  --b-border: #93c5fd;
+
+  --gold:     #d97706;
+  --gold-bg:  #fffbeb;
+  --gold-bdr: #fcd34d;
+
+  --sh: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+  --sh-hover: 0 2px 8px rgba(0,0,0,0.08), 0 8px 30px rgba(0,0,0,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'Nunito', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.75;
+  font-size: 15px;
+}
+
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 48px 28px 80px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes lineGrow { from{transform:scaleX(0)} to{transform:scaleX(1)} }
+@keyframes pop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+
+.reveal { opacity:0; transform:translateY(18px); transition:opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ════════ HEADER ════════ */
+header {
+  text-align: center;
+  padding: 48px 20px 44px;
+  animation: fadeUp .7s ease forwards;
+}
+
+.breadcrumb {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--gold);
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-bdr);
+  border-radius: 99px; padding: 4px 14px;
+  margin-bottom: 28px;
+}
+
+header h1 {
+  font-family: 'Sora', sans-serif;
+  font-size: 38px; font-weight: 700;
+  color: var(--ink); line-height: 1.15;
+  letter-spacing: -0.5px;
+}
+header h1 span.accent-r { color: var(--r); }
+header h1 span.accent-b { color: var(--b); }
+
+.h-divider {
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  margin: 16px 0;
+}
+.h-divider .line {
+  height: 1px; width: 60px;
+  background: var(--border);
+  transform-origin: center;
+  animation: lineGrow 1s .4s ease forwards; transform: scaleX(0);
+}
+.h-divider .arrow {
+  font-size: 20px; color: var(--ink3);
+  font-weight: 300;
+}
+
+.question-box {
+  display: inline-block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 22px;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink2);
+  box-shadow: var(--sh);
+  max-width: 580px;
+  line-height: 1.6;
+}
+.question-box::before { content: '❝  '; color: var(--gold); font-style: normal; font-weight: 800; }
+.question-box::after  { content: '  ❞'; color: var(--gold); font-style: normal; font-weight: 800; }
+
+/* ════════ TIMELINE ════════ */
+.timeline-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px 24px 18px;
+  margin: 36px 0;
+  box-shadow: var(--sh);
+}
+.tl-head {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.tl-head::after { content:''; flex:1; height:1px; background: var(--border); }
+
+.tl-scroll {
+  overflow-x: auto;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  padding-bottom: 8px;
+}
+.tl-inner {
+  display: flex; align-items: flex-start;
+  position: relative; min-width: max-content;
+}
+.tl-inner::before {
+  content:''; position:absolute; top:12px; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, var(--r) 0%, var(--gold) 35%, var(--g) 65%, var(--b) 100%);
+  border-radius: 2px;
+}
+
+.ti { display:flex; flex-direction:column; align-items:center; width:96px; position:relative; z-index:1; }
+.ti-dot {
+  width:24px; height:24px; border-radius:50%;
+  background: var(--surface); border: 2.5px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:10px; transition:transform .2s, border-color .2s;
+  font-size:9px; font-weight:700; color:var(--ink3);
+  font-family:'DM Mono',monospace;
+  cursor:default;
+}
+.ti:hover .ti-dot { transform:scale(1.2); }
+
+/* color per event */
+.ti:nth-child(1)  .ti-dot { border-color:var(--r);  color:var(--r);  background:var(--r-light); }
+.ti:nth-child(2)  .ti-dot { border-color:var(--gold); color:var(--gold); background:var(--gold-bg); }
+.ti:nth-child(3)  .ti-dot { border-color:var(--g);  color:var(--g);  background:var(--g-light); }
+.ti:nth-child(4)  .ti-dot { border-color:var(--r);  color:var(--r);  background:var(--r-light); }
+.ti:nth-child(5)  .ti-dot { border-color:var(--r);  color:var(--r);  background:var(--r-light); }
+.ti:nth-child(6)  .ti-dot { border-color:var(--r);  color:var(--r);  background:var(--r-light); }
+.ti:nth-child(7)  .ti-dot { border-color:var(--g);  color:var(--g);  background:var(--g-light); }
+.ti:nth-child(8)  .ti-dot { border-color:var(--b);  color:var(--b);  background:var(--b-light); }
+.ti:nth-child(9)  .ti-dot { border-color:var(--b);  color:var(--b);  background:var(--b-light); }
+.ti:nth-child(10) .ti-dot { border-color:var(--b);  color:var(--b);  background:var(--b-light); }
+
+.ti-year {
+  font-family:'Sora',sans-serif; font-size:12px; font-weight:700;
+  color:var(--ink); margin-bottom:2px;
+}
+.ti-text { font-size:10.5px; color:var(--ink3); text-align:center; line-height:1.3; padding:0 4px; }
+
+/* ════════ PARTIES ════════ */
+.partie {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin-bottom: 24px;
+  overflow: hidden;
+  box-shadow: var(--sh);
+  transition: box-shadow .25s, transform .25s;
+}
+.partie:hover { box-shadow: var(--sh-hover); transform: translateY(-2px); }
+
+/* Header de partie */
+.ph {
+  padding: 22px 28px;
+  display:flex; align-items:center; gap:16px;
+  border-bottom: 1px solid var(--border);
+}
+.ph-r { background: linear-gradient(135deg, var(--r-light) 0%, #fff5f5 100%); }
+.ph-g { background: linear-gradient(135deg, var(--g-light) 0%, #f5fff9 100%); }
+.ph-b { background: linear-gradient(135deg, var(--b-light) 0%, #f5f9ff 100%); }
+
+.ph-pill {
+  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1.5px;
+  text-transform:uppercase; padding:4px 12px; border-radius:99px; font-weight:500;
+}
+.ph-r .ph-pill { background:var(--r-mid); color:var(--r); }
+.ph-g .ph-pill { background:var(--g-mid); color:var(--g); }
+.ph-b .ph-pill { background:var(--b-mid); color:var(--b); }
+
+.ph-info { flex:1; }
+.ph-title {
+  font-family:'Sora',sans-serif; font-size:20px; font-weight:700;
+  color:var(--ink); line-height:1.2;
+}
+.ph-dates {
+  font-family:'DM Mono',monospace; font-size:11px; color:var(--ink3);
+  letter-spacing:1px; margin-top:3px;
+}
+.ph-emoji { font-size:28px; }
+
+/* Body */
+.pb { padding:28px 28px; }
+
+/* Sous-titre */
+.sous-partie { margin-bottom:24px; }
+.sous-partie:last-child { margin-bottom:0; }
+
+.st {
+  display:flex; align-items:center; gap:10px;
+  font-family:'Sora',sans-serif; font-size:15px; font-weight:700;
+  color:var(--ink); margin-bottom:14px;
+}
+.st-ltr {
+  width:26px; height:26px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:700; flex-shrink:0;
+}
+.rouge .st-ltr { background:var(--r-mid); color:var(--r); }
+.vert  .st-ltr { background:var(--g-mid); color:var(--g); }
+.bleu  .st-ltr { background:var(--b-mid); color:var(--b); }
+.st hr { flex:1; border:none; border-top:1px solid var(--border); }
+
+p.bt { font-size:15px; color:var(--ink2); margin-bottom:12px; line-height:1.8; }
+
+/* ── TABLEAU ── */
+.tw { overflow-x:auto; margin:14px 0; border-radius:10px; border:1px solid var(--border); }
+table.bl { width:100%; border-collapse:collapse; font-size:14px; min-width:460px; }
+table.bl th {
+  padding:10px 14px;
+  font-family:'Sora',sans-serif; font-size:13px; font-weight:700; text-align:center;
+}
+table.bl th.h0 { background:var(--surface2); color:var(--ink3); font-size:12px; }
+table.bl th.h1 { background:var(--b); color:white; }
+table.bl th.h2 { background:var(--r); color:white; }
+table.bl td { padding:9px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.55; font-size:14px; }
+table.bl td:first-child { font-weight:700; font-size:12.5px; color:var(--ink2); background:var(--surface2); white-space:nowrap; }
+table.bl tr:last-child td { border-bottom:none; }
+table.bl tr:hover td { background:#f8faff; }
+table.bl tr:hover td:first-child { background:var(--b-light); }
+
+/* ── ENCADRÉS ── */
+.enc {
+  border-radius:10px; padding:14px 16px; margin:12px 0;
+  font-size:14px; line-height:1.72; display:flex; gap:12px;
+  align-items:flex-start;
+}
+.enc-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.enc-body { flex:1; }
+.enc-title { font-family:'Sora',sans-serif; font-size:13px; font-weight:700; margin-bottom:5px; }
+
+.enc-gold  { background:var(--gold-bg); border:1px solid var(--gold-bdr); }
+.enc-gold  .enc-title { color:var(--gold); }
+.enc-red   { background:var(--r-light);  border:1px solid var(--r-border); }
+.enc-red   .enc-title { color:var(--r); }
+.enc-green { background:var(--g-light);  border:1px solid var(--g-border); }
+.enc-green .enc-title { color:var(--g); }
+.enc-blue  { background:var(--b-light);  border:1px solid var(--b-border); }
+.enc-blue  .enc-title { color:var(--b); }
+
+/* ── DEFS ── */
+.dg { display:grid; grid-template-columns:repeat(auto-fill,minmax(248px,1fr)); gap:10px; margin:12px 0; }
+.dc {
+  background:var(--bg); border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; font-size:14px; line-height:1.65;
+  transition:box-shadow .2s, transform .2s, border-color .2s;
+}
+.dc:hover { box-shadow:var(--sh-hover); transform:translateY(-2px); }
+.rouge .dc:hover { border-color:var(--r-border); }
+.vert  .dc:hover { border-color:var(--g-border); }
+.bleu  .dc:hover { border-color:var(--b-border); }
+.dt {
+  font-family:'Sora',sans-serif; font-weight:700; font-size:14.5px;
+  color:var(--ink); display:flex; align-items:center; gap:7px; margin-bottom:4px;
+}
+.dt-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.rouge .dt-dot { background:var(--r); }
+.vert  .dt-dot { background:var(--g); }
+.bleu  .dt-dot { background:var(--b); }
+.dc p { color:var(--ink2); font-size:13.5px; }
+
+/* ── LISTE ── */
+ul.sl { list-style:none; padding:0; }
+ul.sl li {
+  padding:7px 0 7px 22px; position:relative;
+  font-size:14.5px; color:var(--ink2);
+  border-bottom:1px solid var(--border); line-height:1.7;
+}
+ul.sl li:last-child { border-bottom:none; }
+ul.sl li::before { content:'·'; position:absolute; left:5px; font-size:22px; line-height:1.1; font-weight:700; }
+.rouge ul.sl li::before { color:var(--r); }
+.vert  ul.sl li::before { color:var(--g); }
+.bleu  ul.sl li::before { color:var(--b); }
+ul.sl li strong { color:var(--ink); font-weight:700; }
+ul.sl li em { color:var(--ink3); font-style:italic; }
+
+.divider { border:none; border-top:1px solid var(--border); margin:22px 0; }
+
+/* ── EU DATES ── */
+.eu-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(148px,1fr)); gap:10px; margin:14px 0; }
+.eu-card {
+  background:var(--b-light); border:1px solid var(--b-border);
+  border-radius:10px; padding:12px 14px;
+  font-size:13px; line-height:1.5; color:var(--ink2);
+  transition:box-shadow .2s, transform .2s;
+}
+.eu-card:hover { box-shadow:0 4px 16px rgba(37,99,235,0.15); transform:translateY(-2px); }
+.eu-yr {
+  font-family:'Sora',sans-serif; font-size:20px; font-weight:700;
+  color:var(--b); display:block; margin-bottom:3px;
+}
+
+/* ════════ QCM ════════ */
+.qcm {
+  margin-top:36px; border-radius:18px; overflow:hidden;
+  border:1px solid var(--border); box-shadow:var(--sh);
+}
+.qcm-top {
+  padding:28px 28px 24px;
+  background:var(--surface);
+  border-bottom:2px solid var(--border);
+  text-align:center;
+}
+.qcm-label {
+  display:inline-flex; align-items:center; gap:6px;
+  font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--gold); background:var(--gold-bg); border:1px solid var(--gold-bdr);
+  border-radius:99px; padding:3px 12px; margin-bottom:12px;
+}
+.qcm-top h2 {
+  font-family:'Sora',sans-serif; font-size:22px; font-weight:700; color:var(--ink);
+}
+.qcm-top p { font-size:13.5px; color:var(--ink3); margin-top:4px; }
+
+.qcm-body { background:var(--bg); padding:20px 22px; }
+
+.qb {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; margin-bottom:10px; overflow:hidden;
+  transition:box-shadow .2s, border-color .2s;
+}
+.qb:hover { box-shadow:var(--sh-hover); border-color:var(--b-border); }
+
+.qh {
+  padding:14px 16px; display:flex; align-items:flex-start; gap:12px;
+  cursor:pointer; user-select:none;
+}
+.qn {
+  font-family:'Sora',sans-serif; font-size:11px; font-weight:700;
+  color:var(--b); background:var(--b-light); border:1px solid var(--b-border);
+  border-radius:8px; width:26px; height:26px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; margin-top:1px;
+}
+.qt { font-family:'Sora',sans-serif; font-size:14.5px; font-weight:600; color:var(--ink); flex:1; line-height:1.4; }
+.qtog {
+  width:26px; height:26px; border-radius:8px;
+  background:var(--surface2); border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; font-size:16px; color:var(--ink3); font-weight:300;
+  transition:all .25s; margin-top:1px; line-height:1;
+}
+.qb.open .qtog { background:var(--b); color:white; border-color:var(--b); transform:rotate(45deg); }
+.qa {
+  max-height:0; overflow:hidden;
+  transition:max-height .4s ease, padding .3s ease;
+  padding:0 16px; font-size:14.5px; color:var(--ink2);
+  line-height:1.8;
+}
+.qb.open .qa { max-height:400px; padding:12px 16px 16px; border-top:1px solid var(--border); }
+.qa strong { color:var(--ink); font-weight:700; }
+
+/* ════════ FOOTER ════════ */
+footer {
+  text-align:center; margin-top:48px; padding-top:20px;
+  border-top:1px solid var(--border);
+  font-family:'DM Mono',monospace; font-size:10.5px;
+  letter-spacing:2px; text-transform:uppercase; color:var(--ink3);
+}
+
+@media(max-width:600px){
+  header h1 { font-size:26px; }
+  .pb,.ph { padding:18px 16px; }
+  .dg { grid-template-columns:1fr; }
+  .eu-grid { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header>
+  <div class="breadcrumb">✦ Thème 2 · Histoire · Terminale</div>
+  <h1>Du monde <span class="accent-r">bipolaire</span></h1>
+  <div class="h-divider">
+    <div class="line"></div>
+    <div class="arrow">↓</div>
+    <div class="line"></div>
+  </div>
+  <h1>au monde <span class="accent-b">multipolaire</span></h1>
+  <br>
+  <div class="question-box">Comment les relations internationales ont-elles été bouleversées depuis la Guerre Froide&nbsp;?</div>
+</header>
+
+<!-- TIMELINE -->
+<div class="timeline-card reveal">
+  <div class="tl-head">Chronologie essentielle</div>
+  <div class="tl-scroll">
+    <div class="tl-inner">
+      <div class="ti"><div class="ti-dot">47</div><div class="ti-year">1947</div><div class="ti-text">Début Guerre Froide</div></div>
+      <div class="ti"><div class="ti-dot">55</div><div class="ti-year">1955</div><div class="ti-text">Conférence Bandung</div></div>
+      <div class="ti"><div class="ti-dot">57</div><div class="ti-year">1957</div><div class="ti-text">Traité de Rome</div></div>
+      <div class="ti"><div class="ti-dot">62</div><div class="ti-year">1962</div><div class="ti-text">Crise de Cuba</div></div>
+      <div class="ti"><div class="ti-dot">86</div><div class="ti-year">1986</div><div class="ti-text">Tchernobyl</div></div>
+      <div class="ti"><div class="ti-dot">89</div><div class="ti-year">1989</div><div class="ti-text">Chute du mur</div></div>
+      <div class="ti"><div class="ti-dot">91</div><div class="ti-year">1991</div><div class="ti-text">Fin de l'URSS</div></div>
+      <div class="ti"><div class="ti-dot">93</div><div class="ti-year">1993</div><div class="ti-text">Traité Maastricht</div></div>
+      <div class="ti"><div class="ti-dot">95</div><div class="ti-year">1995</div><div class="ti-text">Espace Schengen</div></div>
+      <div class="ti"><div class="ti-dot">01</div><div class="ti-year">2001</div><div class="ti-text">11 septembre</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PARTIE I ════ -->
+<div class="partie rouge reveal">
+  <div class="ph ph-r">
+    <div class="ph-emoji">🌍</div>
+    <div class="ph-info">
+      <div class="ph-title">La Guerre Froide</div>
+      <div class="ph-dates">1947 — 1991</div>
+    </div>
+    <div class="ph-pill">Partie I</div>
+  </div>
+  <div class="pb">
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">A</div> Deux blocs opposés <hr></div>
+      <p class="bt">Après la Seconde Guerre mondiale, le monde est <strong>bipolaire</strong> : il se divise en deux camps organisés chacun autour d'une superpuissance dominante — les États-Unis à l'Ouest, l'URSS à l'Est.</p>
+      <div class="dg">
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Guerre Froide</div>
+          <p>Conflit <em>indirect</em> (1947–1991) entre les États-Unis et l'URSS. Jamais de guerre directe : les deux ont <strong>l'arme nucléaire</strong> (dissuasion).</p>
+        </div>
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Monde bipolaire</div>
+          <p>Monde organisé autour de <strong>deux pôles</strong> de puissance opposés s'affrontant sans combat direct.</p>
+        </div>
+      </div>
+      <div class="tw">
+        <table class="bl">
+          <thead><tr><th class="h0"></th><th class="h1">🇺🇸 Bloc de l'Ouest</th><th class="h2">🇷🇺 Bloc de l'Est</th></tr></thead>
+          <tbody>
+            <tr><td>Superpuissance</td><td>États-Unis</td><td>URSS</td></tr>
+            <tr><td>Alliés</td><td>Europe Ouest, Canada, Australie</td><td>Chine, Europe Est, partie Afrique</td></tr>
+            <tr><td>Alliance militaire</td><td>OTAN</td><td>Pacte de Varsovie</td></tr>
+            <tr><td>Modèle politique</td><td>Démocratie</td><td>Dictature communiste</td></tr>
+            <tr><td>Modèle économique</td><td>Capitalisme</td><td>Communisme</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="enc enc-gold">
+        <div class="enc-icon">💡</div>
+        <div class="enc-body">
+          <div class="enc-title">Plan Marshall</div>
+          Les États-Unis financent la reconstruction européenne pour étendre leur influence et contenir la progression du communisme en Europe de l'Ouest.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">B</div> La crise des missiles de Cuba (1962) <hr></div>
+      <ul class="sl">
+        <li>Cuba à <strong>moins de 200 km</strong> des côtes américaines, dans les Caraïbes.</li>
+        <li><strong>1959 :</strong> Castro nationalise les entreprises américaines → embargo total américain.</li>
+        <li>Cuba se rapproche de l'URSS après l'échec de la <strong>Baie des Cochons (1961)</strong>.</li>
+        <li>L'URSS installe des <strong>missiles nucléaires à Cuba</strong> à portée des États-Unis.</li>
+        <li><strong>Résolution :</strong> Négociations Kennedy/Khrouchtchev → retrait des missiles + création du <strong>téléphone rouge</strong>.</li>
+      </ul>
+      <div class="enc enc-red">
+        <div class="enc-icon">⚠️</div>
+        <div class="enc-body">
+          <div class="enc-title">À retenir absolument</div>
+          Moment le plus dangereux de la Guerre Froide — le monde frôle la <strong>guerre nucléaire</strong>. Illustration parfaite de la logique de dissuasion.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">C</div> La fin de la Guerre Froide <hr></div>
+      <ul class="sl">
+        <li>Les deux blocs négocient davantage → baisse des tensions (<em>détente</em>).</li>
+        <li>L'URSS en crise économique : la <strong>course aux armements coûte trop cher</strong>.</li>
+        <li><strong>1986 :</strong> Catastrophe de <strong>Tchernobyl</strong> → révèle les failles du système soviétique.</li>
+        <li>Les populations d'Europe de l'Est se révoltent contre le communisme.</li>
+        <li><strong>9 novembre 1989 :</strong> Chute du <strong>mur de Berlin</strong> — symbole de la fin de la Guerre Froide.</li>
+        <li><strong>1991 :</strong> Disparition de l'URSS → fin officielle, <em>gagnée par les États-Unis</em>.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ PARTIE II ════ -->
+<div class="partie vert reveal">
+  <div class="ph ph-g">
+    <div class="ph-emoji">🌿</div>
+    <div class="ph-info">
+      <div class="ph-title">Décolonisations &amp; Tiers-Monde</div>
+      <div class="ph-dates">Années 1950 — 1960</div>
+    </div>
+    <div class="ph-pill">Partie II</div>
+  </div>
+  <div class="pb">
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">A</div> La décolonisation et la naissance de nouveaux États <hr></div>
+      <div class="dg">
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Nationalisme</div>
+          <p>Mouvement politique qui revendique l'<strong>indépendance</strong> d'un peuple et la création de son propre État.</p>
+        </div>
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Décolonisation</div>
+          <p>Processus par lequel un territoire <strong>dominé accède à l'indépendance</strong> de son ancienne puissance coloniale.</p>
+        </div>
+      </div>
+      <p class="bt" style="margin-top:12px;">Dans les <strong>années 50 et 60</strong>, le nationalisme se développe dans les régions colonisées et la décolonisation progresse rapidement.</p>
+      <div class="enc enc-green">
+        <div class="enc-icon">📋</div>
+        <div class="enc-body">
+          <div class="enc-title">Les 2 phases de la décolonisation</div>
+          <ul class="sl" style="margin-top:6px;">
+            <li><strong>Phase 1 — Années 1940–50 :</strong> Asie (Inde 1947, Indochine, Indonésie…)</li>
+            <li><strong>Phase 2 — Années 1960 :</strong> Afrique (quasi tous les pays du continent)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="bt" style="margin-top:10px;">Deux voies pour l'indépendance : <strong>pacifique/négociée</strong> (Inde avec Gandhi, 1947) ou <strong>lutte armée</strong> (Algérie 1954–1962).</p>
+      <div class="enc enc-gold">
+        <div class="enc-icon">📌</div>
+        <div class="enc-body">
+          <div class="enc-title">Conférence de Bandung (1955)</div>
+          29 pays d'Asie et d'Afrique refusent de choisir entre les deux blocs → revendiquent une <strong>troisième voie</strong> indépendante → naissance du Tiers-Monde et du <em>mouvement des non-alignés</em>.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">B</div> L'émergence du Tiers-Monde <hr></div>
+      <div class="dc" style="margin-bottom:14px; background:var(--surface);">
+        <div class="dt"><div class="dt-dot"></div>Tiers-Monde</div>
+        <p>Ensemble des pays n'appartenant ni au bloc occidental ni soviétique. Souvent pauvres, ils cherchent à s'affirmer comme acteurs indépendants sur la scène internationale.</p>
+      </div>
+      <ul class="sl">
+        <li>Pays décolonisés <strong>économiquement très pauvres</strong> (peu d'infrastructures, dépendance de l'ancien colonisateur).</li>
+        <li>Souhaitent une <strong>nouvelle place dans le monde</strong> : indépendance politique et économique.</li>
+        <li>Dénoncent l'<strong>impérialisme</strong> — la domination des grandes puissances sur les pays plus faibles.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ PARTIE III ════ -->
+<div class="partie bleu reveal">
+  <div class="ph ph-b">
+    <div class="ph-emoji">🌐</div>
+    <div class="ph-info">
+      <div class="ph-title">Le monde après 1991</div>
+      <div class="ph-dates">Depuis 1991 — monde multipolaire</div>
+    </div>
+    <div class="ph-pill">Partie III</div>
+  </div>
+  <div class="pb">
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">A</div> Un nouveau projet pour l'Europe <hr></div>
+      <div class="eu-grid">
+        <div class="eu-card"><span class="eu-yr">1951</span>CECA — 6 pays fondateurs</div>
+        <div class="eu-card"><span class="eu-yr">1957</span>Traité de Rome → CEE</div>
+        <div class="eu-card"><span class="eu-yr">1993</span>Maastricht → <strong>UE</strong></div>
+        <div class="eu-card"><span class="eu-yr">1995</span>Espace Schengen</div>
+        <div class="eu-card"><span class="eu-yr">2002</span>Introduction euro 💶</div>
+      </div>
+      <div class="enc enc-blue" style="margin-top:14px;">
+        <div class="enc-icon">⚠️</div>
+        <div class="enc-body">
+          <div class="enc-title">L'UE n'est pas seulement économique !</div>
+          C'est aussi une alliance <strong>politique</strong> (parlement, institutions communes) et un <strong>projet de paix</strong> entre nations autrefois en guerre. Valeurs communes : démocratie, droits de l'homme, état de droit.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">B</div> Vers un monde multipolaire et complexe <hr></div>
+      <div class="dg">
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Monde multipolaire</div>
+          <p>Plusieurs centres de puissance (USA, Europe, Chine…) à la place des deux blocs.</p>
+        </div>
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Hyperpuissance</div>
+          <p>Les <strong>États-Unis dans les années 1990</strong> : seule superpuissance mondiale après la chute de l'URSS.</p>
+        </div>
+        <div class="dc">
+          <div class="dt"><div class="dt-dot"></div>Unilatéralisme</div>
+          <p>Un État qui <strong>agit seul</strong>, sans consulter ses alliés ni les organisations internationales.</p>
+        </div>
+      </div>
+      <ul class="sl" style="margin-top:10px;">
+        <li>Après 1991, États-Unis = seule <strong>hyperpuissance</strong> mondiale (domination militaire, économique, culturelle).</li>
+        <li>Nouvelles puissances émergentes (Chine, Inde, Brésil…) → monde progressivement <strong>multipolaire</strong>.</li>
+        <li>Nouveaux conflits : guerres ethniques (ex-Yougoslavie), terrorisme international…</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="sous-partie">
+      <div class="st"><div class="st-ltr">C</div> Les attentats du 11 septembre 2001 <hr></div>
+      <ul class="sl">
+        <li><strong>11 septembre 2001 :</strong> Attaques d'<strong>Al-Qaïda</strong> (Ben Laden) — World Trade Center + Pentagone → environ <strong>3 000 morts</strong>.</li>
+        <li>Choc mondial immense, traumatisme historique pour les États-Unis et le monde entier.</li>
+      </ul>
+      <div class="enc enc-red" style="margin-top:12px;">
+        <div class="enc-icon">🌍</div>
+        <div class="enc-body">
+          <div class="enc-title">Conséquences internationales à connaître</div>
+          <ul class="sl" style="margin-top:6px;">
+            <li>Guerre en <strong>Afghanistan (2001)</strong> — USA et alliés contre les talibans.</li>
+            <li>Guerre en <strong>Irak (2003)</strong> — décision <em>unilatérale</em> américaine, contre l'avis de la France et l'Allemagne.</li>
+            <li>Renforcement mondial de la <strong>lutte antiterroriste</strong>.</li>
+            <li>Remise en question de l'hyperpuissance américaine.</li>
+            <li>Entrée dans une ère de <strong>terrorisme global</strong> et d'instabilité multipolaire.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════ QCM ════ -->
+<div class="qcm reveal">
+  <div class="qcm-top">
+    <div class="qcm-label">✦ Entraînement</div>
+    <h2>Questions type contrôle</h2>
+    <p>Clique sur une question pour voir la réponse</p>
+  </div>
+  <div class="qcm-body">
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">1</div><div class="qt">Qu'est-ce que la Guerre Froide ? Définition et dates.</div><div class="qtog">+</div></div>
+      <div class="qa">Conflit <strong>indirect</strong> (1947–1991) entre les États-Unis et l'URSS, avec des aspects politiques, militaires et économiques. Pas de guerre directe car les deux ont <strong>l'arme nucléaire</strong> (logique de dissuasion).</div>
+    </div>
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">2</div><div class="qt">Décrivez les deux blocs : modèles politique, économique, alliances militaires.</div><div class="qtog">+</div></div>
+      <div class="qa"><strong>Bloc de l'Ouest (USA) :</strong> Démocratie + Capitalisme + OTAN.<br><strong>Bloc de l'Est (URSS) :</strong> Dictature communiste + Communisme + Pacte de Varsovie.</div>
+    </div>
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">3</div><div class="qt">Expliquez la crise de Cuba (1962) : causes, déroulement, résolution.</div><div class="qtog">+</div></div>
+      <div class="qa">Cuba nationalise les entreprises américaines → embargo USA → rapprochement Cuba-URSS → missiles soviétiques à Cuba. Résolu par négociations Kennedy/Khrouchtchev : retrait des missiles + création du <strong>téléphone rouge</strong>.</div>
+    </div>
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">4</div><div class="qt">Comment et pourquoi la Guerre Froide se termine-t-elle en 1991 ?</div><div class="qtog">+</div></div>
+      <div class="qa">L'URSS en crise économique (course aux armements + Tchernobyl 1986). Révoltes en Europe de l'Est. Chute du <strong>mur de Berlin (1989)</strong>. Disparition de l'URSS en 1991 → victoire des États-Unis.</div>
+    </div>
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">5</div><div class="qt">Qu'est-ce que le Tiers-Monde et comment émerge-t-il ?</div><div class="qtog">+</div></div>
+      <div class="qa">Ensemble des pays hors des deux blocs, souvent issus de la décolonisation. Émerge avec la <strong>Conférence de Bandung (1955)</strong> où 29 pays revendiquent une troisième voie indépendante.</div>
+    </div>
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">6</div><div class="qt">L'Union Européenne est-elle seulement une alliance économique ? Justifiez.</div><div class="qtog">+</div></div>
+      <div class="qa">Non. L'UE est aussi une alliance <strong>politique</strong> (parlement, institutions communes) et un <strong>projet de paix</strong> entre nations autrefois en guerre, fondé sur des valeurs communes : démocratie, droits de l'homme, état de droit.</div>
+    </div>
+
+    <div class="qb" onclick="tq(this)">
+      <div class="qh"><div class="qn">7</div><div class="qt">Expliquez les attentats du 11/09/2001 et leurs conséquences internationales.</div><div class="qtog">+</div></div>
+      <div class="qa">Attaques d'<strong>Al-Qaïda</strong> (Ben Laden) → ~3 000 morts. Conséquences : guerre <strong>Afghanistan (2001)</strong>, guerre <strong>Irak (2003)</strong> (unilatéralisme), renforcement antiterroriste mondial, remise en cause de l'hyperpuissance US → entrée dans le monde multipolaire.</div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Bonne chance pour ton contrôle demain 💪 · Thème 2 — Histoire · Du monde bipolaire au monde multipolaire</footer>
+
+</div>
+<script>
+function tq(b){ b.classList.toggle('open'); }
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:0.06});
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  el.style.transitionDelay=(i*0.08)+'s'; io.observe(el);
+});
+</script>
+</body>
+</html>
